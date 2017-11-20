@@ -1,0 +1,23 @@
+{
+  "name": "advancedJS_hangman",
+  "version": "1.0.0",
+  "description": "The advanced JS assignment: Hangman built with constructors",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/therealizzi/advancedJS_hangman.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/therealizzi/advancedJS_hangman/issues"
+  },
+  "homepage": "https://github.com/therealizzi/advancedJS_hangman#readme",
+  "dependencies": {
+    "file-system": "^2.2.2"
+  }
+}
