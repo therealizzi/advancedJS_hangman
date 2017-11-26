@@ -1,12 +1,37 @@
 
-//Need an array of words or phrases
+// -------This constructor module generates a random word-------
 
-var words = ["Blues Brothers", "Home Alone", "Taxi", "Philadelphia", "Fugitive"];
 
-//Need to randomly select a word for the game
+//Array of words
+var words = ["Top Gun", "Sleepless in Seattle", "Glory", "Blues Brothers", "Back To The Future", "Home Alone", "Taxi", "Breakfast Club", "Philadelphia", "Fugitive"];
 
-var rand = Math.floor(Math.random()*words.length + 1);
+//Word constructor
+var Word = function() {
 
-var mysteryWord = words[rand];
+	//Randomly chooses a word
+	this.word = words[
+		Math.floor(Math.random()*words.length)
+	];
+	
+	//Turns word into an array
+	this.array = function() {
+		var array = Array.from(this.word);
+		return array;
+	};
 
-console.log(mysteryWord);
+	//Turns word array into blanks
+	this.blanks = function(newWord) {
+		var blankArray = [];
+		for (i = 0; i < newWord.length; i++){
+			if (newWord[i] == " "){
+				blankArray.push(" ");
+			} else {
+				blankArray.push("_");
+			}
+		}
+		return blankArray;
+	};
+}
+
+//Export the constructor as a module
+module.exports = Word;
