@@ -8,8 +8,9 @@ var Letter = require("./letter_constructor2.0.js");
 //Create the inquirer variable
 var inquirer = require("inquirer");
 
+//Initiates game start prompt
 function initiate() {
-	//Prompt user to start game
+
 	inquirer.prompt(
 		[
 			{
@@ -36,8 +37,7 @@ function initiate() {
 	)
 }
 
-var tries = 3;
-
+//Sets variables and initiates userInput function
 function startGame() {
 	var tries = 3;
 	var word = new Letter();
@@ -50,6 +50,7 @@ function startGame() {
 	userInput();
 }
 
+//Accepts user guesses
 function userInput() {
 	inquirer.prompt(
 		[
@@ -59,27 +60,47 @@ function userInput() {
 				message: "\nThe word is: "+wordBlanks.join(' ')+"\n \nGuess a letter:"
 			},
 		]
+		//Processes user input variables
 		).then(answers => {
 
 			var flag = false;
 
+			//Checks guesses against word array
 			for (var i = 0; i < wordArray.length; i++) {
 				if (wordArray[i].toUpperCase() == answers.newGuess.toUpperCase()) {
 					flag = true;
 					wordBlanks.splice(i,1,answers.newGuess);
-					console.log("Correct! Guess again: \n"+wordBlanks.join(' '));
-					break;
+					console.log("\nCorrect! Guess again: \n"+wordBlanks.join(' '));
 				}
 			}
 
-			if (flag === false && tries === 1) {
-				console.log("\nYou lose!\n");
+			var solved = true;
+
+			//Checks to see if game is solved
+			for (var i = 0; i < wordBlanks.length; i++) {
+				if (wordBlanks[i] === "_"){
+					solved = false;
+				}
+			}
+
+			//Notifies user if game is solved
+			if (solved === true) {
+				console.log("\nYou won!\n")
+
 				initiate();
 
+			//Notifies user if game is over
+			} else if (flag === false && tries === 1) {
+				console.log("\nYou lose!\n");
+
+				initiate();
+
+			//Notifies user of guess status
 			} else if (flag === true) {
 				console.log("\nNice! Tries remaining: "+tries);
 				userInput();
 
+			//Notifies user of guess status
 			} else {
 				tries--;
 				console.log("\nWhoops! Tries remaining: "+tries);
@@ -88,4 +109,5 @@ function userInput() {
 		})
 }
 
+//Starts the game
 initiate();
