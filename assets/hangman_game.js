@@ -8,6 +8,9 @@ var Letter = require("./letter_constructor.js");
 //Create the inquirer variable
 var inquirer = require("inquirer");
 
+//Create chalk variable
+var chalk = require('chalk');
+
 //Initiates game start prompt
 function initiate() {
 
@@ -16,7 +19,7 @@ function initiate() {
 			{
 				type: "list",
 				name: "playGame",
-				message: "Would you like to play a game?",
+				message: "Would you like to play Hangman?",
 				choices: ["Yes", "No"],
 			}
 		]
@@ -29,8 +32,7 @@ function initiate() {
 				break;
 			case "No":
 				console.log("\n Well, too bad... \n");
-				startGame();
-				break;	
+				process.exit();
 		}
 
 	}
@@ -39,7 +41,7 @@ function initiate() {
 
 //Sets variables and initiates userInput function
 function startGame() {
-	var tries = 3;
+	var tries = 6;
 	var word = new Letter();
 	var wordArray = word.newWordArray();
 	var wordBlanks = word.newWordBlanks();
@@ -53,60 +55,57 @@ function startGame() {
 //Accepts user guesses
 function userInput() {
 	inquirer.prompt(
-		[
-			{
-				type: "input",
-				name: "newGuess",
-				message: "\nThe word is: "+wordBlanks.join(' ')+"\n \nGuess a letter:"
-			},
-		]
-		//Processes user input variables
-		).then(answers => {
+	[
+		{
+			type: "input",
+			name: "newGuess",
+			message: "\nThe word is: "+wordBlanks.join(' ')+"\n \nGuess a letter:"
+		},
+	]
+	//Processes user input variables
+	).then(answers => {
 
-			var flag = false;
+		var flag = false;
 
-			//Checks guesses against word array
-			for (var i = 0; i < wordArray.length; i++) {
-				if (wordArray[i].toUpperCase() == answers.newGuess.toUpperCase()) {
-					flag = true;
-					wordBlanks.splice(i,1,answers.newGuess);
-					console.log("\nCorrect! Guess again: \n"+wordBlanks.join(' '));
-				}
+		//Checks guesses against word array
+		for (var i = 0; i < wordArray.length; i++) {
+			if (wordArray[i].toUpperCase() == answers.newGuess.toUpperCase()) {
+				flag = true;
+				wordBlanks.splice(i,1,answers.newGuess);
 			}
+		}
 
-			var solved = true;
+		var solved = true;
 
-			//Checks to see if game is solved
-			for (var i = 0; i < wordBlanks.length; i++) {
-				if (wordBlanks[i] === "_"){
-					solved = false;
-				}
+		//Checks to see if game is solved
+		for (var i = 0; i < wordBlanks.length; i++) {
+			if (wordBlanks[i] === "_"){
+				solved = false;
 			}
+		}
 
-			//Notifies user if game is solved
-			if (solved === true) {
-				console.log("\nYou won!\n")
+		//Notifies user if game is solved
+		if (solved === true) {
+			console.log(chalk.green("\nYou won!\n"))
+			initiate();
 
-				initiate();
+		//Notifies user if game is over
+		} else if (flag === false && tries === 1) {
+			console.log(chalk.red("\nYou lose!\n"));
+			initiate();
 
-			//Notifies user if game is over
-			} else if (flag === false && tries === 1) {
-				console.log("\nYou lose!\n");
+		//Notifies user of guess status
+		} else if (flag === true) {
+			console.log(chalk.green("\nCorrect! Tries remaining: "+tries));
+			userInput();
 
-				initiate();
-
-			//Notifies user of guess status
-			} else if (flag === true) {
-				console.log("\nNice! Tries remaining: "+tries);
-				userInput();
-
-			//Notifies user of guess status
-			} else {
-				tries--;
-				console.log("\nWhoops! Tries remaining: "+tries);
-				userInput();
-			}
-		})
+		//Notifies user of guess status
+		} else {
+			tries--;
+			console.log(chalk.red("\nWrong! Tries remaining: "+tries));
+			userInput();
+		}
+	})
 }
 
 //Starts the game
