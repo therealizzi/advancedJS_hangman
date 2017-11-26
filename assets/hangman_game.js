@@ -3,7 +3,7 @@
 
 
 //Require the letter constructor
-var Letter = require("./letter_constructor2.0.js");
+var Letter = require("./letter_constructor.js");
 
 //Create the inquirer variable
 var inquirer = require("inquirer");
