@@ -9,9 +9,7 @@ var words = ["Top Gun", "Sleepless in Seattle", "Glory", "Blues Brothers", "Back
 var Word = function() {
 
 	//Randomly chooses a word
-	this.word = words[
-		Math.floor(Math.random()*words.length)
-	];
+	this.word = words[Math.floor(Math.random()*words.length)];
 	
 	//Turns word into an array
 	this.array = function() {

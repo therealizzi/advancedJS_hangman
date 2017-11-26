@@ -3,41 +3,50 @@
 
 
 //Require the letter constructor
-var Letter = require("./letter_constructor.js");
+var Letter = require("./letter_constructor2.0.js");
 
 //Create the inquirer variable
 var inquirer = require("inquirer");
 
-//Prompt user to start game
-inquirer.prompt(
-	[
+function initiate() {
+	//Prompt user to start game
+	inquirer.prompt(
+		[
+			{
+				type: "list",
+				name: "playGame",
+				message: "Would you like to play a game?",
+				choices: ["Yes", "No"],
+			}
+		]
+	).then(answers => 
 		{
-			type: "list",
-			name: "playGame",
-			message: "Would you like to play a game?",
-			choices: ["Yes", "No"],
+		switch(answers.playGame) {
+			case "Yes":
+				console.log("\n Let's Play! \n");
+				break;
+			case "No":
+				console.log("\n Well, too bad... \n");
+				break;	
 		}
-	]
-).then(answers => 
-	{
-	switch(answers.playGame) {
-		case "Yes":
-			console.log("\n Let's Play! \n");
-			break;
-		case "No":
-			console.log("\n Well, too bad... \n");
-			break;	
+	startGame();
 	}
-startGame();
+	)
 }
-)
 
 var tries = 3;
 
 function startGame() {
-	// newWord();
-	// blankLetters();
+	var tries = 3;
+	var word = new Letter();
+	var wordArray = word.newWordArray();
+	var wordBlanks = word.newWordBlanks();
+	global.tries = tries;
+	global.word = word;
+	global.wordArray = wordArray;
+	global.wordBlanks = wordBlanks;
 	userInput();
+
 }
 
 function userInput() {
@@ -46,23 +55,37 @@ function userInput() {
 			{
 				type: "input",
 				name: "newGuess",
-				message: "Guess a letter:"
+				message: "\nThe word is: "+wordBlanks.join(' ')+"\n \nGuess a letter:"
 			},
 		]
 		).then(answers => {
 
-			console.log("\n You guessed: "+answers.newGuess);
-			if(answers.newGuess == "a"){
-				console.log("\n Correct!!");
-				return;
-			}else if(tries === 0) {
-				console.log("\n What part of guess 'a' letter didn't you understand?");
-				return
-				}else 
-					tries--;
-					console.log("\n Tries remaining: "+tries);
-					console.log("\n Try again");
-					userInput();
+			var flag = false;
+
+			for (var i = 0; i < wordArray.length; i++) {
+				if (wordArray[i] == answers.newGuess) {
+					flag = true;
+					wordBlanks.splice(i,1,answers.newGuess);
+					console.log("Correct! Guess again: \n"+wordBlanks.join(' '));
+					break;
+				}
+			}
+
+			if (flag === false && tries === 0) {
+				console.log("\nYou lose!\n");
+				initiate();
+				// break;
+			} else if (flag === true) {
+				console.log("\nNice! Tries remaining: "+tries);
+				userInput();
+				// break;	
+			} else {
+				tries--;
+				console.log("\nWhoops! Tries remaining: "+tries);
+				userInput();
+				// break;
+			}
 		})
 }
 
+initiate();
