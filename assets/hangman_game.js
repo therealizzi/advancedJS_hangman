@@ -24,12 +24,14 @@ function initiate() {
 		switch(answers.playGame) {
 			case "Yes":
 				console.log("\n Let's Play! \n");
+				startGame();
 				break;
 			case "No":
 				console.log("\n Well, too bad... \n");
+				startGame();
 				break;	
 		}
-	startGame();
+
 	}
 	)
 }
@@ -46,7 +48,6 @@ function startGame() {
 	global.wordArray = wordArray;
 	global.wordBlanks = wordBlanks;
 	userInput();
-
 }
 
 function userInput() {
@@ -63,7 +64,7 @@ function userInput() {
 			var flag = false;
 
 			for (var i = 0; i < wordArray.length; i++) {
-				if (wordArray[i] == answers.newGuess) {
+				if (wordArray[i].toUpperCase() == answers.newGuess.toUpperCase()) {
 					flag = true;
 					wordBlanks.splice(i,1,answers.newGuess);
 					console.log("Correct! Guess again: \n"+wordBlanks.join(' '));
@@ -71,19 +72,18 @@ function userInput() {
 				}
 			}
 
-			if (flag === false && tries === 0) {
+			if (flag === false && tries === 1) {
 				console.log("\nYou lose!\n");
 				initiate();
-				// break;
+
 			} else if (flag === true) {
 				console.log("\nNice! Tries remaining: "+tries);
 				userInput();
-				// break;	
+
 			} else {
 				tries--;
 				console.log("\nWhoops! Tries remaining: "+tries);
 				userInput();
-				// break;
 			}
 		})
 }
