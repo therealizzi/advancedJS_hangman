@@ -1,8 +1,8 @@
 
-// -------This constructor module manages letters -------
+// ------- This is a letter constructor -------
 
 
-//Require the word constructor
+//Initiate word constructor
 var Word = require("./word_constructor.js");
 
 //Letter constructor
@@ -21,12 +21,12 @@ var Letter = function() {
 		return newWordArray;
 	}
 
-	//Converts array to blanks
+	//Converts word array to blanks
 	this.newWordBlanks = function() {
 		var newWordBlanks = newWord.blanks(this.newWordArray());
 		return newWordBlanks;
 	}
 };
 
-//Export the constructor as a module
+//Exports the constructor as a module
 module.exports = Letter;

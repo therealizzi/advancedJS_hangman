@@ -1,9 +1,9 @@
 
-// -------This constructor module generates a random word-------
+// ------- This is a word constructor -------
 
 
-//Array of words
-var words = ["Top Gun", "Sleepless in Seattle", "Glory", "Blues Brothers", "Back To The Future", "Home Alone", "Taxi", "Breakfast Club", "Philadelphia", "Fugitive"];
+//Array of movie titles
+var words = ["Top Gun", "Sleepless in Seattle", "The Princess Bride", "Die Hard", "Blade Runner", "The Terminator", "The Shining", "Ghostbusters", "Glory", "Blues Brothers", "Back To The Future", "Home Alone", "Taxi", "Breakfast Club", "Philadelphia", "Fugitive"];
 
 //Word constructor
 var Word = function() {
@@ -31,5 +31,5 @@ var Word = function() {
 	};
 }
 
-//Export the constructor as a module
+//Exports the constructor as a module
 module.exports = Word;
